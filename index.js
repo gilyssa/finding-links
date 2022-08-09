@@ -24,7 +24,7 @@ function treatMistake(mistake){
 }
 
 // função assincrona usando promessa: ideal para textos grandes
-function getFile(filePath){
+export default function getFile(filePath){
     const encoding = 'utf-8';
     fs.promises //chamando a promessa
     .readFile(filePath, encoding)
@@ -32,7 +32,8 @@ function getFile(filePath){
     .catch((err) => treatMistake(err)) //pegar o erro caso ele ocorra
 }
 
-getFile('./files/post.md');
+//getFile('./files/post.md');
+
 
 //função sincrona:
 //function getFile(filePath){
