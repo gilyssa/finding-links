@@ -14,7 +14,7 @@ function extractLinks(text){
     while((temp = regex.exec(text)) !== null ){
         arrayResults.push({ [temp[1]]: temp[2] })
     }
-    return arrayResults.length === 0 ? chalk.red('Nenhum link foi localizado.') : arrayResults;
+    return arrayResults;
 }
 
 //jogando o possível erro com o throw
@@ -23,12 +23,27 @@ function treatMistake(mistake){
     throw new Error(chalk.bgRedBright(mistake.code, 'Erro ao processar leitura do arquivo'));
 }
 
-export default async function getFile(filePath) {
+// função assincrona usando promessa: ideal para textos grandes
+export default function getFile(filePath){
     const encoding = 'utf-8';
-    try {
-      const text = await fs.promises.readFile(filePath, encoding)
-      return extractLinks(text);
-    } catch(erro) {
-      treatMistake(erro);
-    }
-  }
+    fs.promises //chamando a promessa
+    .readFile(filePath, encoding)
+    .then((text) => console.log((extractLinks(text))))//leia o arquivo e depois realize
+    .catch((err) => treatMistake(err)) //pegar o erro caso ele ocorra
+}
+
+//getFile('./files/post.md');
+
+
+//função sincrona:
+//function getFile(filePath){
+//    const encoding = 'utf-8';
+//    //recebendo o erro de maneira nativa do fs e jogando no if, se der erro irá entrar na nossa função de tratar erro, 
+//    //caso não dê erro a função recebe o texto que foi lido
+//    fs.readFile(filePath, encoding, (err, data) => { 
+//        if(err){
+//            treatMistake(chalk.bgRedBright(err));
+//        }
+//        console.log(chalk.bgYellowBright(data));
+//    })
+//}
