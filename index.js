@@ -14,7 +14,7 @@ function extractLinks(text){
     while((temp = regex.exec(text)) !== null ){
         arrayResults.push({ [temp[1]]: temp[2] })
     }
-    return arrayResults;
+    return arrayResults.length === 0 ? 'Não existem links no arquivo' : arrayResults;
 }
 
 //jogando o possível erro com o throw
@@ -24,13 +24,23 @@ function treatMistake(mistake){
 }
 
 // função assincrona usando promessa: ideal para textos grandes
-export default function getFile(filePath){
+export default async function getFile(filePath) {
     const encoding = 'utf-8';
-    fs.promises //chamando a promessa
-    .readFile(filePath, encoding)
-    .then((text) => console.log((extractLinks(text))))//leia o arquivo e depois realize
-    .catch((err) => treatMistake(err)) //pegar o erro caso ele ocorra
-}
+    try {
+      const text = await fs.promises.readFile(filePath, encoding)
+      return extractLinks(text);
+    } catch(erro) {
+      treatMistake(erro);
+    }
+  }
+
+//export default function getFile(filePath){
+//    const encoding = 'utf-8';
+//    fs.promises //chamando a promessa
+//    .readFile(filePath, encoding)
+//    .then((text) => console.log((extractLinks(text))))//leia o arquivo e depois realize
+//    .catch((err) => treatMistake(err)) //pegar o erro caso ele ocorra
+//}
 
 //getFile('./files/post.md');
 
