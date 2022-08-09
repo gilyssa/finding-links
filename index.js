@@ -3,6 +3,7 @@ import chalk from 'chalk';
  //precisei adicionar a seguinte linha no arquivo package json para rodar: "type": "module",
  //Esta outra forma de lidar com a importação("import modulo") e exportação de módulos veio com o famoso ES6 ou JS2015
 import fs from 'fs'; // biblioteca FileSystem, utilizada para percorrer arquivos no node - import fs from 'fs'; - não necessita de instalação, só é preciso realizar a importação pois é nativa.
+import path from 'path';
 
 //extraindo links da expressão do parâmetro
 function extractLinks(text){
@@ -33,27 +34,3 @@ export default async function getFile(filePath) {
       treatMistake(erro);
     }
   }
-
-//export default function getFile(filePath){
-//    const encoding = 'utf-8';
-//    fs.promises //chamando a promessa
-//    .readFile(filePath, encoding)
-//    .then((text) => console.log((extractLinks(text))))//leia o arquivo e depois realize
-//    .catch((err) => treatMistake(err)) //pegar o erro caso ele ocorra
-//}
-
-//getFile('./files/post.md');
-
-
-//função sincrona:
-//function getFile(filePath){
-//    const encoding = 'utf-8';
-//    //recebendo o erro de maneira nativa do fs e jogando no if, se der erro irá entrar na nossa função de tratar erro, 
-//    //caso não dê erro a função recebe o texto que foi lido
-//    fs.readFile(filePath, encoding, (err, data) => { 
-//        if(err){
-//            treatMistake(chalk.bgRedBright(err));
-//        }
-//        console.log(chalk.bgYellowBright(data));
-//    })
-//}
